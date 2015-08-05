@@ -1,6 +1,6 @@
 "use strict";
 
-var browserSync = require("../../../");
+var browserSync = require("../../../../index");
 var assert      = require("chai").assert;
 
 describe("E2E options test - ready callback as option", function () {

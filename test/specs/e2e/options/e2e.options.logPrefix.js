@@ -1,11 +1,11 @@
 "use strict";
 
-var browserSync = require("../../../");
+var browserSync = require("../../../../index");
 
 var assert = require("chai").assert;
 var sinon = require("sinon");
 var stripColor = require("chalk").stripColor;
-var logger = require("../../../lib/logger").logger;
+var logger = require("../../../../lib/logger").logger;
 
 describe("E2E `logPrefix` option", function () {
 

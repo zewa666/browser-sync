@@ -1,6 +1,6 @@
 "use strict";
 
-var browserSync = require("../../../index");
+var browserSync = require("../../../../index");
 var sinon       = require("sinon");
 
 describe("E2E `logSnippet` option", function () {
