@@ -1,12 +1,12 @@
 "use strict";
 
-var browserSync = require("../../../index");
-var utils = require("../../../lib/utils");
+var utils = require("../../../../lib/utils");
 
 var assert = require("chai").assert;
 var sinon = require("sinon");
+var browserSync = require("../../../../index");
 
-describe("E2E `startPath` option", function () {
+describe("E2E OPEN Browsers options (1)", function () {
 
     var instance;
     var stub;
@@ -16,8 +16,7 @@ describe("E2E `startPath` option", function () {
         var config = {
             logLevel: "silent",
             server:    "test/fixtures",
-            startPath: "forms.html",
-            online:    true
+            browser:   "google chrome"
         };
         stub = sinon.stub(utils, "open");
         instance = browserSync(config, done).instance;
@@ -28,13 +27,16 @@ describe("E2E `startPath` option", function () {
         stub.restore();
     });
 
-    it("Opens the page with the startPath appended when online", function () {
+    it("Opens the localhost address as default", function () {
         var args = stub.getCall(0).args;
-        assert.include(args[0], "forms.html");
+        sinon.assert.called(stub);
+
+        assert.equal(args[0], instance.options.getIn(["urls", "local"]));
+        assert.equal(args[1], "google chrome");
     });
 });
 
-describe("E2E `startPath` option", function () {
+describe("E2E OPEN Browsers options (multiple)", function () {
 
     var instance;
     var stub;
@@ -44,8 +46,7 @@ describe("E2E `startPath` option", function () {
         var config = {
             logLevel: "silent",
             server:    "test/fixtures",
-            startPath: "forms.html",
-            online:    false
+            browser:   ["google chrome", "safari"]
         };
         stub = sinon.stub(utils, "open");
         instance = browserSync(config, done).instance;
@@ -56,8 +57,17 @@ describe("E2E `startPath` option", function () {
         stub.restore();
     });
 
-    it("Opens the page with the startPath appended when OFFLINE", function () {
+    it("Opens the localhost address as default", function () {
+
+        sinon.assert.called(stub);
+        var local = instance.options.getIn(["urls", "local"]);
+
         var args = stub.getCall(0).args;
-        assert.include(args[0], "forms.html");
+        assert.equal(args[0], local);
+        assert.equal(args[1], "google chrome");
+
+        args = stub.getCall(1).args;
+        assert.equal(args[0], local);
+        assert.equal(args[1], "safari");
     });
 });
